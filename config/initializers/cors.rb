@@ -4,7 +4,7 @@
 # font cors issue with CDN
 # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
 
-allowed_origins = [
+ALLOWED_ORIGINS = [
   'https://chatwoot.studio.datachain.ai',
   'https://studio.datachain.ai',
   'https://studio.dvc.dev',
@@ -13,7 +13,7 @@ allowed_origins = [
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins *allowed_origins
+    origins *ALLOWED_ORIGINS
     resource '/packs/*', headers: :any, methods: [:get, :options]
     resource '/audio/*', headers: :any, methods: [:get, :options]
     # Make the public endpoints accessible to the frontend
@@ -35,7 +35,7 @@ class AdditionalSecurityHeaders
 
     headers['cross-origin-embedder-policy'] = 'credentialless'
     headers['cross-origin-resource-policy'] = 'cross-origin'
-    headers['content-security-policy'] = "frame-ancestors 'self' #{allowed_origins.join(' ')};"
+    headers['content-security-policy'] = "frame-ancestors 'self' #{ALLOWED_ORIGINS.join(' ')};"
 
     [status, headers, response]
   end
