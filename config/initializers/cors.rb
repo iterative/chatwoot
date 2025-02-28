@@ -27,7 +27,7 @@ class CrossOriginPolicies
 
     headers['cross-origin-embedder-policy'] = 'credentialless'
     headers['cross-origin-resource-policy'] = 'cross-origin'
-    headers['content-security-policy'] = "frame-ancestors 'self' https://studio.datachain.ai;"
+    headers['content-security-policy'] = "frame-ancestors 'self' https://studio.datachain.ai http://localhost:3000;"
 
     [status, headers, response]
   end
