@@ -1,8 +1,8 @@
-# config/initializers/cross_origin.rb
+# config/initializers/cors.rb
 # ref: https://github.com/cyu/rack-cors
 
 # font cors issue with CDN
-# ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
+# Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins 'https://studio.datachain.ai', 'https://chatwoot.studio.datachain.ai', `https://studio.dvc.dev', 'http://localhost:3000'
