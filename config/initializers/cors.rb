@@ -17,6 +17,12 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
 end
 
+
+Rails.application.config.middleware.use Rack::Config do |env|
+  env['cross-origin-embedder-policy'] = 'credentialless'
+  env['cross-origin-resource-policy'] = 'cross-origin'
+end
+
 ################################################
 ######### Action Cable Related Config ##########
 ################################################
