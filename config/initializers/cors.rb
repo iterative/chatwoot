@@ -5,7 +5,7 @@
 # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://studio.datachain.ai', 'https://chatwoot.studio.datachain.ai', `https://studio.dvc.dev', 'http://localhost:3000'
+    origins 'https://studio.datachain.ai', 'https://chatwoot.studio.datachain.ai', 'https://studio.dvc.dev', 'http://localhost:3000'
     resource '/packs/*', headers: :any, methods: [:get, :options]
     resource '/audio/*', headers: :any, methods: [:get, :options]
     # Make the public endpoints accessible to the frontend
