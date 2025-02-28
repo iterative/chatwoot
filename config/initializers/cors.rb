@@ -3,9 +3,17 @@
 
 # font cors issue with CDN
 # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
+
+allowed_origins = [
+  'https://chatwoot.studio.datachain.ai',
+  'https://studio.datachain.ai',
+  'https://studio.dvc.dev',
+  'http://localhost:3000'
+]
+
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://studio.datachain.ai', 'https://chatwoot.studio.datachain.ai', 'https://studio.dvc.dev', 'http://localhost:3000'
+    origins *allowed_origins
     resource '/packs/*', headers: :any, methods: [:get, :options]
     resource '/audio/*', headers: :any, methods: [:get, :options]
     # Make the public endpoints accessible to the frontend
@@ -17,7 +25,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
 end
 
-class CrossOriginPolicies
+class AdditionalSecurityHeaders
   def initialize(app)
     @app = app
   end
@@ -27,13 +35,13 @@ class CrossOriginPolicies
 
     headers['cross-origin-embedder-policy'] = 'credentialless'
     headers['cross-origin-resource-policy'] = 'cross-origin'
-    headers['content-security-policy'] = "frame-ancestors 'self' https://studio.datachain.ai https://chatwoot.studio.datachain.ai https://studio.dvc.dev http://localhost:3000;"
+    headers['content-security-policy'] = "frame-ancestors 'self' #{allowed_origins.join(' ')};"
 
     [status, headers, response]
   end
 end
 
-Rails.application.config.middleware.insert_before 0, CrossOriginPolicies
+Rails.application.config.middleware.insert_before Rack::Cors, AdditionalSecurityHeaders
 
 ################################################
 ######### Action Cable Related Config ##########
