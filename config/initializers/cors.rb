@@ -3,9 +3,20 @@
 
 # font cors issue with CDN
 # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
+
+ALLOWED_ORIGINS = [
+  'https://chatwoot.studio.datachain.ai',
+  'https://studio.datachain.ai',
+  'https://studio.dvc.dev'
+]
+
+if Rails.env.development?
+  ALLOWED_ORIGINS << 'http://localhost:3000'
+end
+
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    origins *ALLOWED_ORIGINS
     resource '/packs/*', headers: :any, methods: [:get, :options]
     resource '/audio/*', headers: :any, methods: [:get, :options]
     # Make the public endpoints accessible to the frontend
@@ -16,6 +27,24 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     end
   end
 end
+
+class AdditionalSecurityHeaders
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    status, headers, response = @app.call(env)
+
+    headers['cross-origin-embedder-policy'] = 'credentialless'
+    headers['cross-origin-resource-policy'] = 'cross-origin'
+    headers['content-security-policy'] = "frame-ancestors 'self' #{ALLOWED_ORIGINS.join(' ')};"
+
+    [status, headers, response]
+  end
+end
+
+Rails.application.config.middleware.insert_before Rack::Cors, AdditionalSecurityHeaders
 
 ################################################
 ######### Action Cable Related Config ##########
