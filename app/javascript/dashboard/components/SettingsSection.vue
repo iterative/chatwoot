@@ -28,17 +28,12 @@ export default {
       'border-b border-solid border-n-weak/60 dark:border-n-weak': showBorder,
     }"
   >
-    <div class="grid grid-cols-1 lg:grid-cols-6 gap-6">
-      <div class="col-span-2 xl:col-span-1">
-        <p
-          v-if="title"
-          class="text-base text-woot-500 dark:text-woot-500 mb-0 font-medium"
-        >
+    <div class="grid grid-cols-1 lg:grid-cols-8 gap-6">
+      <div class="col-span-2">
+        <p v-if="title" class="text-base text-n-brand mb-0 font-medium">
           {{ title }}
         </p>
-        <p
-          class="text-sm mb-2 text-slate-700 dark:text-slate-300 leading-5 tracking-normal mt-2"
-        >
+        <p class="text-sm mb-2 text-n-slate-11 leading-5 tracking-normal mt-2">
           <slot v-if="subTitle" name="subTitle">
             {{ subTitle }}
           </slot>
@@ -48,7 +43,7 @@ export default {
           {{ note }}
         </p>
       </div>
-      <div class="col-span-4 lg:col-span-4 2xl:col-span-3">
+      <div class="col-span-6 xl:col-span-5">
         <slot />
       </div>
     </div>

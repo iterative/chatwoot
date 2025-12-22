@@ -39,5 +39,18 @@
   },
   "LABEL": {
     "TAG_BUTTON": "etiqueta"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "Más información",
+    "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutos",
+    "HOURS": "Horas",
+    "DAYS": "Días",
+    "PLACEHOLDER": "Ingresar duración"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "¡Muy pronto!"
   }
 }

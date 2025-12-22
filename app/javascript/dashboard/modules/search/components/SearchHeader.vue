@@ -1,10 +1,17 @@
 <script setup>
-import { ref, useTemplateRef, onMounted, onUnmounted } from 'vue';
+import { ref, useTemplateRef, onMounted, onUnmounted, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
+
+const props = defineProps({
+  initialQuery: {
+    type: String,
+    default: '',
+  },
+});
 
 const emit = defineEmits(['search']);
 
-const searchQuery = ref('');
+const searchQuery = ref(props.initialQuery);
 const isInputFocused = ref(false);
 
 const searchInput = useTemplateRef('searchInput');
@@ -38,6 +45,16 @@ const onBlur = () => {
   isInputFocused.value = false;
 };
 
+watch(
+  () => props.initialQuery,
+  newValue => {
+    if (searchQuery.value !== newValue) {
+      searchQuery.value = newValue;
+    }
+  },
+  { immediate: true }
+);
+
 onMounted(() => {
   searchInput.value.focus();
   document.addEventListener('keydown', handler);
@@ -50,7 +67,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="input-container rounded-xl transition-[border-bottom] duration-[0.2s] ease-[ease-in-out] relative flex items-center py-2 px-4 h-14 gap-2 border border-solid"
+    class="input-container rounded-xl transition-[border-bottom] duration-[0.2s] ease-[ease-in-out] relative flex items-center py-2 px-4 h-14 gap-2 border border-solid bg-n-alpha-black2"
     :class="{
       'border-n-brand': isInputFocused,
       'border-n-weak': !isInputFocused,
@@ -70,7 +87,7 @@ onUnmounted(() => {
     <input
       ref="searchInput"
       type="search"
-      class="w-full m-0 bg-transparent border-transparent shadow-none text-n-slate-12 dark:text-n-slate-12 active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none"
+      class="reset-base outline-none w-full m-0 bg-transparent border-transparent shadow-none text-n-slate-12 dark:text-n-slate-12 active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none"
       :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
       :value="searchQuery"
       @focus="onFocus"

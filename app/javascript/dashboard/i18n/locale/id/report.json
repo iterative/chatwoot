@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "7 hari terakhir",
+      "LAST_14_DAYS": "14 hari terakhir",
       "LAST_30_DAYS": "30 hari terakhir",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "3 bulan terakhir",
       "LAST_6_MONTHS": "6 bulan terakhir",
       "LAST_YEAR": "Tahun terakhir",
@@ -119,7 +122,8 @@
       "EMPTY_LIST": "Tidak ada hasil ditemukan"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -192,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Gambaran Label",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_LABEL_REPORTS": "Unduh laporan label",
@@ -264,6 +269,8 @@
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_INBOX_REPORTS": "Unduh laporan kotak masuk",
     "FILTER_DROPDOWN_LABEL": "Pilih kotak masuk",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Percakapan",
@@ -465,12 +472,31 @@
       "CONVERSATIONS": "{count} percakapan",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Tidak ada percakapan",
+      "CONVERSATION": "{count} percakapan",
+      "CONVERSATIONS": "{count} percakapan",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Percakapan oleh Agen",
       "LOADING_MESSAGE": "Memuat metrik agen...",
       "NO_AGENTS": "Tidak ada percakapan oleh agen",
       "TABLE_HEADER": {
         "AGENT": "Agen",
+        "OPEN": "Terbuka",
+        "UNATTENDED": "Tidak Ditangani",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Tim",
         "OPEN": "Terbuka",
         "UNATTENDED": "Tidak Ditangani",
         "STATUS": "Status"
@@ -546,6 +572,7 @@
     "INBOX": "Kotak masuk",
     "AGENT": "Agen",
     "TEAM": "Tim",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

@@ -17,6 +17,12 @@
     "IP_ADDRESS": "Endereço IP",
     "CREATED_AT_LABEL": "Criado",
     "NEW_MESSAGE": "Nova Mensagem",
+    "CALL": "Chamada",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Escolha uma caixa de entrada de voz"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
       "TITLE": "Conversas anteriores"
@@ -27,12 +33,12 @@
         "ERROR": "Falha ao atualizar etiquetas"
       },
       "CONVERSATION": {
-        "TITLE": "Marcador da conversa",
-        "ADD_BUTTON": "Adicionar marcador"
+        "TITLE": "Etiquetas da conversa",
+        "ADD_BUTTON": "Adicionar etiquetas"
       },
       "LABEL_SELECT": {
-        "TITLE": "Adicionar marcador",
-        "PLACEHOLDER": "Pesquisar marcador ",
+        "TITLE": "Adicionar etiquetas",
+        "PLACEHOLDER": "Pesquisar etiquetas",
         "NO_RESULT": "Nenhuma etiqueta encontrada",
         "CREATE_LABEL": "Criar etiqueta"
       }
@@ -283,15 +289,16 @@
   },
   "CONTACTS_LAYOUT": {
     "HEADER": {
-      "TITLE": "Contato",
+      "TITLE": "Contatos",
       "SEARCH_TITLE": "Pesquisar contatos",
+      "ACTIVE_TITLE": "Contatos ativos",
       "SEARCH_PLACEHOLDER": "Pesquisar...",
       "MESSAGE_BUTTON": "Enviar Mensagem",
       "SEND_MESSAGE": "Enviar mensagem",
       "BLOCK_CONTACT": "Bloquear contato",
       "UNBLOCK_CONTACT": "Desbloquear contato",
       "BREADCRUMB": {
-        "CONTACTS": "Contato"
+        "CONTACTS": "Contatos"
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
@@ -450,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Adicionar Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Adicionar LinkedIn"
           },
@@ -457,6 +467,10 @@
             "PLACEHOLDER": "Adicionar Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "Esta ação é permanente e irreversível.",
+        "BUTTON": "Excluir agora"
       }
     },
     "DETAILS": {
@@ -466,7 +480,7 @@
       "DELETE_CONTACT": "Excluir contato",
       "DELETE_DIALOG": {
         "TITLE": "Confirmar exclusão",
-        "DESCRIPTION": "Tem certeza de que deseja excluir este contato {contactName}?",
+        "DESCRIPTION": "Tem certeza de que deseja excluir este contato?",
         "CONFIRM": "Sim, excluir",
         "API": {
           "SUCCESS_MESSAGE": "Contato excluído com sucesso",
@@ -544,7 +558,12 @@
         "WROTE": "escreveu",
         "YOU": "Você",
         "SAVE": "Salvar nota",
-        "EMPTY_STATE": "Não existem notas associadas a este contato. Você pode adicionar uma nota digitando na caixa acima."
+        "ADD_NOTE": "Adicionar nota de contato",
+        "EXPAND": "Expandir",
+        "COLLAPSE": "Recolher",
+        "NO_NOTES": "Sem notas, você pode adicionar notas a partir da página de detalhes do contato.",
+        "EMPTY_STATE": "Não existem notas associadas a este contato. Você pode adicionar uma nota digitando na caixa acima.",
+        "CONVERSATION_EMPTY_STATE": "Ainda não há notas. Use o botão Adicionar nota para criar uma."
       }
     },
     "EMPTY_STATE": {
@@ -552,7 +571,29 @@
       "SUBTITLE": "Comece a adicionar novos contatos clicando no botão abaixo",
       "BUTTON_LABEL": "Adicionar contato",
       "SEARCH_EMPTY_STATE_TITLE": "Nenhum contato corresponde à sua pesquisa 🔍",
-      "LIST_EMPTY_STATE_TITLE": "Não há contatos disponíveis nesta visualização 📋"
+      "LIST_EMPTY_STATE_TITLE": "Não há contatos disponíveis nesta visualização 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "Nenhum contato está ativo no momento 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Atribuir rótulo",
+    "ASSIGN_LABELS_SUCCESS": "Rótulos atribuídos com sucesso.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selecionado",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Selecionar todos ({count})",
+    "DELETE_CONTACTS": "Excluir",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Excluir contato"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -593,6 +634,15 @@
           "TEMPLATE_NAME": "Modelo do WhatsApp: {templateName}",
           "VARIABLES": "Variáveis",
           "BACK": "Voltar atrás",
+          "SEND_MESSAGE": "Enviar mensagem"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Selecione o modelo",
+        "SEARCH_PLACEHOLDER": "Pesquisar modelos",
+        "EMPTY_STATE": "Nenhum modelo encontrado",
+        "TEMPLATE_PARSER": {
+          "BACK": "Voltar",
           "SEND_MESSAGE": "Enviar mensagem"
         }
       },

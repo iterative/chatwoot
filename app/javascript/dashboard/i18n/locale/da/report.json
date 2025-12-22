@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Seneste 7 dage",
+      "LAST_14_DAYS": "Seneste 14 dage",
       "LAST_30_DAYS": "Seneste 30 dage",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Seneste 3 måneder",
       "LAST_6_MONTHS": "Seneste 6 måneder",
       "LAST_YEAR": "Sidste år",
@@ -119,7 +122,8 @@
       "EMPTY_LIST": "Ingen resultater fundet"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -192,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Oversigt Over Etiketter",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Indlæser diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
     "DOWNLOAD_LABEL_REPORTS": "Download etiketrapporter",
@@ -264,6 +269,8 @@
     "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
     "DOWNLOAD_INBOX_REPORTS": "Download indbakke rapporter",
     "FILTER_DROPDOWN_LABEL": "Vælg Indbakke",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtaler",
@@ -465,12 +472,31 @@
       "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Samtaler af agenter",
       "LOADING_MESSAGE": "Indlæser agent målinger...",
       "NO_AGENTS": "Der er ingen samtaler af agenter",
       "TABLE_HEADER": {
         "AGENT": "Agent",
+        "OPEN": "Åbn",
+        "UNATTENDED": "Unattet",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
         "OPEN": "Åbn",
         "UNATTENDED": "Unattet",
         "STATUS": "Status"
@@ -546,6 +572,7 @@
     "INBOX": "Indbakke",
     "AGENT": "Agent",
     "TEAM": "Team",
+    "LABEL": "Etiketter",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

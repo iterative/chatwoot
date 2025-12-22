@@ -6,6 +6,7 @@ import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
 const state = {
   allConversations: [],
@@ -21,6 +22,11 @@ const state = {
   conversationLastSeen: null,
   syncConversationsMessages: {},
   conversationFilters: {},
+  copilotAssistant: {},
+};
+
+const getConversationById = _state => conversationId => {
+  return _state.allConversations.find(c => c.id === conversationId);
 };
 
 // mutations
@@ -77,10 +83,7 @@ export const mutations = {
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
-    const attachments = _state.attachments[id] || [];
-
-    attachments.push(...data);
-    _state.attachments[id] = [...attachments];
+    _state.attachments[id] = [...data];
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
@@ -196,7 +199,6 @@ export const mutations = {
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
-        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
@@ -206,20 +208,27 @@ export const mutations = {
     _state.allConversations.push(conversation);
   },
 
+  [types.DELETE_CONVERSATION](_state, conversationId) {
+    _state.allConversations = _state.allConversations.filter(
+      c => c.id !== conversationId
+    );
+  },
+
   [types.UPDATE_CONVERSATION](_state, conversation) {
     const { allConversations } = _state;
-    const currentConversationIndex = allConversations.findIndex(
-      c => c.id === conversation.id
-    );
-    if (currentConversationIndex > -1) {
-      const { messages, ...conversationAttributes } = conversation;
-      const currentConversation = {
-        ...allConversations[currentConversationIndex],
-        ...conversationAttributes,
-      };
-      allConversations[currentConversationIndex] = currentConversation;
+    const index = allConversations.findIndex(c => c.id === conversation.id);
+
+    if (index > -1) {
+      const selectedConversation = allConversations[index];
+
+      // ignore out of order events
+      if (conversation.updated_at < selectedConversation.updated_at) {
+        return;
+      }
+
+      const { messages, ...updates } = conversation;
+      allConversations[index] = { ...selectedConversation, ...updates };
       if (_state.selectedChatId === conversation.id) {
-        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
@@ -266,6 +275,36 @@ export const mutations = {
     }
   },
 
+  [types.UPDATE_CONVERSATION_CALL_STATUS](
+    _state,
+    { conversationId, callStatus }
+  ) {
+    const chat = getConversationById(_state)(conversationId);
+    if (!chat) return;
+
+    chat.additional_attributes = {
+      ...chat.additional_attributes,
+      call_status: callStatus,
+    };
+  },
+
+  [types.UPDATE_MESSAGE_CALL_STATUS](_state, { conversationId, callStatus }) {
+    const chat = getConversationById(_state)(conversationId);
+    if (!chat) return;
+
+    const lastCall = (chat.messages || []).findLast(
+      m => m.content_type === CONTENT_TYPES.VOICE_CALL
+    );
+
+    if (!lastCall) return;
+
+    lastCall.content_attributes ??= {};
+    lastCall.content_attributes.data = {
+      ...lastCall.content_attributes.data,
+      status: callStatus,
+    };
+  },
+
   [types.SET_ACTIVE_INBOX](_state, inboxId) {
     _state.currentInbox = inboxId ? parseInt(inboxId, 10) : null;
   },
@@ -308,6 +347,9 @@ export const mutations = {
   },
   [types.UPDATE_CHAT_LIST_FILTERS](_state, data) {
     _state.conversationFilters = { ..._state.conversationFilters, ...data };
+  },
+  [types.SET_INBOX_CAPTAIN_ASSISTANT](_state, data) {
+    _state.copilotAssistant = data.assistant;
   },
 };
 

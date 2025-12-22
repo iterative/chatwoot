@@ -39,12 +39,12 @@ export default {
       component: SettingsContent,
       props: params => {
         const showBackButton = params.name !== 'settings_inbox_list';
+        const fullWidth = params.name === 'settings_inbox_show';
         return {
           headerTitle: 'INBOX_MGMT.HEADER',
-          headerButtonText: 'SETTINGS.INBOXES.NEW_INBOX',
           icon: 'mail-inbox-all',
-          newButtonRoutes: ['settings_inbox_list'],
           showBackButton,
+          fullWidth,
         };
       },
       children: [
@@ -94,7 +94,7 @@ export default {
           ],
         },
         {
-          path: ':inboxId',
+          path: ':inboxId/:tab?',
           name: 'settings_inbox_show',
           component: Settings,
           meta: {

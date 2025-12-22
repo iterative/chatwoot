@@ -4,13 +4,14 @@ import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
-import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 
 import {
   isAConversationRoute,
@@ -24,10 +25,11 @@ export default {
     NextButton,
     ContactInfoRow,
     EditContact,
-    Thumbnail,
+    Avatar,
+    ComposeConversation,
     SocialIcons,
-    NewConversation,
     ContactMergeModal,
+    VoiceCallButton,
   },
   props: {
     contact: {
@@ -49,7 +51,6 @@ export default {
   data() {
     return {
       showEditModal: false,
-      showConversationModal: false,
       showMergeModal: false,
       showDeleteModal: false,
     };
@@ -92,17 +93,29 @@ export default {
       return ` ${this.contact.name}?`;
     },
   },
+  watch: {
+    'contact.id': {
+      handler(id) {
+        this.$store.dispatch('contacts/fetchContactableInbox', id);
+      },
+      immediate: true,
+    },
+  },
   methods: {
     dynamicTime,
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
-    toggleConversationModal() {
-      this.showConversationModal = !this.showConversationModal;
-      emitter.emit(
-        BUS_EVENTS.NEW_CONVERSATION_MODAL,
-        this.showConversationModal
-      );
+    openComposeConversationModal(toggleFn) {
+      toggleFn();
+      // Flag to prevent triggering drag n drop,
+      // When compose modal is active
+      emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
+    },
+    closeComposeConversationModal() {
+      // Flag to enable drag n drop,
+      // When compose modal is closed
+      emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;
@@ -113,7 +126,6 @@ export default {
     },
     closeDelete() {
       this.showDeleteModal = false;
-      this.showConversationModal = false;
       this.showEditModal = false;
     },
     findCountryFlag(countryCode, cityAndCountry) {
@@ -169,12 +181,14 @@ export default {
   <div class="relative items-center w-full p-4">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
       <div class="flex flex-row justify-between">
-        <Thumbnail
+        <Avatar
           v-if="showAvatar"
           :src="contact.thumbnail"
-          size="48px"
-          :username="contact.name"
+          :name="contact.name"
           :status="contact.availability_status"
+          :size="48"
+          hide-offline-status
+          rounded-full
         />
       </div>
 
@@ -250,13 +264,30 @@ export default {
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
-        <NextButton
-          v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
-          icon="i-ph-chat-circle-dots"
+        <ComposeConversation
+          :contact-id="String(contact.id)"
+          is-modal
+          @close="closeComposeConversationModal"
+        >
+          <template #trigger="{ toggle }">
+            <NextButton
+              v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
+              icon="i-ph-chat-circle-dots"
+              slate
+              faded
+              sm
+              @click="openComposeConversationModal(toggle)"
+            />
+          </template>
+        </ComposeConversation>
+        <VoiceCallButton
+          :phone="contact.phone_number"
+          :contact-id="contact.id"
+          icon="i-ri-phone-fill"
+          size="sm"
+          :tooltip-label="$t('CONTACT_PANEL.CALL')"
           slate
           faded
-          sm
-          @click="toggleConversationModal"
         />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
@@ -292,12 +323,6 @@ export default {
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"
-      />
-      <NewConversation
-        v-if="contact.id"
-        :show="showConversationModal"
-        :contact="contact"
-        @cancel="toggleConversationModal"
       />
       <ContactMergeModal
         v-if="showMergeModal"
