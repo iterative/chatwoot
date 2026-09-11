@@ -12,6 +12,7 @@ RSpec.describe Captain::ReplySuggestionService do
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     create(:message, conversation: conversation, message_type: :incoming, content: 'I need help')
+    allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
 
     mock_response = instance_double(RubyLLM::Message, content: 'Sure, I can help!', input_tokens: 50, output_tokens: 20)
@@ -19,6 +20,8 @@ RSpec.describe Captain::ReplySuggestionService do
     mock_context = instance_double(RubyLLM::Context, chat: mock_chat)
 
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
+    allow(mock_chat).to receive(:with_tool).and_return(mock_chat)
+    allow(mock_chat).to receive(:on_end_message).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions) { |msg| captured_messages << { role: 'system', content: msg } }
     allow(mock_chat).to receive(:add_message) { |args| captured_messages << args }
     allow(mock_chat).to receive(:ask) do |msg|
@@ -28,6 +31,12 @@ RSpec.describe Captain::ReplySuggestionService do
   end
 
   describe '#perform' do
+    it 'routes through the editor feature' do
+      expect(Llm::FeatureRouter).to receive(:resolve).with(feature: 'editor', account: account).and_call_original
+
+      service.perform
+    end
+
     it 'returns the suggested reply' do
       result = service.perform
 
